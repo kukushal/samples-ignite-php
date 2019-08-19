@@ -1,0 +1,12 @@
+{
+  "name": "kukushal/samples-ignite-php",
+  "require": {
+    "php": ">=7.2.0",
+    "ext-mbstring": "*",
+    "php-ds/php-ds": "^1.2",
+    "brick/math": "^0.7"
+  },
+  "autoload": {
+    "psr-4": {"Apache\\Ignite\\": "gridgain-ultimate-8.7.6-php/Apache/Ignite"}
+  }
+}
