@@ -36,7 +36,7 @@ In a terminal run:
 
   `php CreateRecord.php`
   
-- Insert data using .NET and display all the data in .NET. In a terminal run `Samples.Ignite.Php.exe`. The expected
+- Insert data using .NET and display all the data using .NET. In a terminal run `Samples.Ignite.Php.exe`. The expected
   output is:
 ```
 >>>>> {id: 'SQL', price: 10, quantity: 1}
@@ -44,9 +44,20 @@ In a terminal run:
 >>>>> {id: '.NET', price: 30, quantity: 3}
 ```
 
-- Display all the data in PHP. In a terminal run `php DisplayRecords.php`. The expected output is:
+- Display all the data using PHP. In a terminal run `php DisplayRecords.php`. The expected output is:
 ```
 >>>>> {id: 'PHP' price: 20 quantity: 2}
 >>>>> {id: 'SQL' price: 10 quantity: 1}
 >>>>> {id: '.NET' price: 30 quantity: 3}
 ```
+
+- Display all the data using SQL:
+
+  `SELECT * FROM RECORDS;`
+  
+  The expected result is:
+  ```
+  .NET	30	3
+  PHP	20	2
+  SQL	10	1
+  ```
