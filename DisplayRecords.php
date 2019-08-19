@@ -9,11 +9,10 @@ use Apache\Ignite\ClientConfiguration;
 use Apache\Ignite\Exception\ClientException;
 use Apache\Ignite\Type\ObjectType;
 use Apache\Ignite\Type\ComplexObjectType;
-use Samples\Ignite\Php\Record;
 
 include 'Record.php';
 
-class CreateRecord
+class DisplayRecords
 {
     private const IGNITE_ADDR = '127.0.0.1:10800';
     private const CACHE_NAME = 'SQL_PUBLIC_RECORDS';
@@ -26,15 +25,19 @@ class CreateRecord
 
             $cache = $client->getCache(self::CACHE_NAME)
                 ->setKeyType(ObjectType::STRING)
-                ->setValueType((new ComplexObjectType())
-                    ->setFieldType('id', ObjectType::STRING)
-                    ->setFieldType('price', ObjectType::DOUBLE)
-                    ->setFieldType('quantity', ObjectType::INTEGER)
-                );
+                ->setValueType(new ComplexObjectType());
 
-            $r = Record::create('PHP', 20.0, 2);
+            $phpRec = $cache->get('PHP');
+            echo('>>>>> ' . $phpRec . PHP_EOL);
 
-            $cache->put($r->id, $r);
+            // Ignite SQL has a usability issue: the INSERT statement does not fill primary key fields embedded
+            // into value objects. Need to fill the primary key fields manually.
+            $sqlRec = $cache->get('SQL');
+            $sqlRec->id = 'SQL';
+            echo('>>>>> ' . $sqlRec . PHP_EOL);
+
+            $dotnetRec = $cache->get('.NET');
+            echo('>>>>> ' . $dotnetRec . PHP_EOL);
         } catch (ClientException $e) {
             echo('ERROR: ' . $e->getMessage() . PHP_EOL);
         } finally {
@@ -43,5 +46,8 @@ class CreateRecord
     }
 }
 
-$app = new CreateRecord();
+$app = new DisplayRecords();
 $app->start();
+
+
+

@@ -1,13 +1,14 @@
 # samples-ignite-php
 
-Apache Ignite PHP/.NET/SQL interoperability. 
+Apache Ignite and GridGain Community Edition PHP/.NET/SQL interoperability. 
 
-The example demonstrates how to manage data in the same cache using Apache Ignite PHP, .NET and SQL APIs. 
+The example demonstrates how to manage data in the same cache using Apache Ignite or GridGain CE PHP, .NET and SQL APIs. 
 
 ## Setup
 
 Prerequisites:
-- IGNITE_HOME environment variable points to where Apache Ignite is installed (tested with Ignite 2.7.5).
+- IGNITE_HOME environment variable points to where Apache Ignite or GridGain CE is installed 
+  (tested with GridGain 8.7.6).
 - PHP 7.2+ and PHP Composer
 - .NET Framework 4.x
 
@@ -17,21 +18,35 @@ In a terminal run:
 
 ## How To Use
 
-- Run Ignite server node. In a termnal run:
+- Run Ignite server node. Build Debug configuration of .NET project `Samples.Ignite.Php` and in a terminal run:
 
-  `%IGNITE_HOME%\platforms\dotnet\bin\Apache.Ignite.exe`
+  `cd Samples.Ignite.Php\bin\Debug`
+
+  `%IGNITE_HOME%\platforms\dotnet\bin\Apache.Ignite.exe -ConfigFileName=Samples.Ignite.Php.exe.config -assembly=Samples.Ignite.Php.exe`
 
 - Create a cache using SQL. In a JDBC tool like sqlline or DBeaver run:
   
-  `CREATE TABLE RECORDS (ID VARCHAR PRIMARY KEY, PRICE DOUBLE, QUANTITY INT) WITH "VALUE_TYPE=Samples\Ignite\Php\Record";`
+  `CREATE TABLE RECORDS ("id" VARCHAR PRIMARY KEY, "price" DOUBLE, "quantity" INT) WITH "VALUE_TYPE=Samples\Ignite\Php\Record";`
   
 - Insert data using SQL:
 
-  `INSERT INTO RECORDS (ID, PRICE, QUANTITY) VALUES ('item1', 10.0, 1);`
+  `INSERT INTO RECORDS ("id", "price", "quantity") VALUES ('SQL', 10.0, 1);`
   
 - Insert data using PHP. In a termimal run:
 
   `php CreateRecord.php`
   
-- Insert data using .NET. In a terminal run:
+- Insert data using .NET and display all the data in .NET. In a terminal run `Samples.Ignite.Php.exe`. The expected
+  output is:
+```
+>>>>> {id: 'SQL', price: 10, quantity: 1}
+>>>>> {id: 'PHP', price: 20, quantity: 2}
+>>>>> {id: '.NET', price: 30, quantity: 3}
+```
 
+- Display all the data in PHP. In a terminal run `php DisplayRecords.php`. The expected output is:
+```
+>>>>> {id: 'PHP' price: 20 quantity: 2}
+>>>>> {id: 'SQL' price: 10 quantity: 1}
+>>>>> {id: '.NET' price: 30 quantity: 3}
+```
